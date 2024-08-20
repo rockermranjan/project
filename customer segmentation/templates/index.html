@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Marketing Campaign Cluster Prediction</title>
+</head>
+<body>
+    <h2>Predict the Cluster of a Customer</h2>
+    <form action="{{ url_for('predict') }}" method="post">
+        <label for="Income">Income:</label><br>
+        <input type="text" id="Income" name="Income"><br>
+        <label for="Recency">Recency:</label><br>
+        <input type="text" id="Recency" name="Recency"><br>
+        <label for="MntWines">MntWines:</label><br>
+        <input type="text" id="MntWines" name="MntWines"><br>
+        <label for="MntFruits">MntFruits:</label><br>
+        <input type="text" id="MntFruits" name="MntFruits"><br>
+        <label for="MntMeatProducts">MntMeatProducts:</label><br>
+        <input type="text" id="MntMeatProducts" name="MntMeatProducts"><br>
+        <label for="MntFishProducts">MntFishProducts:</label><br>
+        <input type="text" id="MntFishProducts" name="MntFishProducts"><br>
+        <label for="MntSweetProducts">MntSweetProducts:</label><br>
+        <input type="text" id="MntSweetProducts" name="MntSweetProducts"><br>
+        <label for="MntGoldProds">MntGoldProds:</label><br>
+        <input type="text" id="MntGoldProds" name="MntGoldProds"><br>
+        <label for="NumDealsPurchases">NumDealsPurchases:</label><br>
+        <input type="text" id="NumDealsPurchases" name="NumDealsPurchases"><br>
+        <label for="NumWebPurchases">NumWebPurchases:</label><br>
+        <input type="text" id="NumWebPurchases" name="NumWebPurchases"><br>
+        <label for="NumCatalogPurchases">NumCatalogPurchases:</label><br>
+        <input type="text" id="NumCatalogPurchases" name="NumCatalogPurchases"><br>
+        <label for="NumStorePurchases">NumStorePurchases:</label><br>
+        <input type="text" id="NumStorePurchases" name="NumStorePurchases"><br>
+        <label for="NumWebVisitsMonth">NumWebVisitsMonth:</label><br>
+        <input type="text" id="NumWebVisitsMonth" name="NumWebVisitsMonth"><br>
+        <label for="Age">Age:</label><br>
+        <input type="text" id="Age" name="Age"><br><br>
+        <input type="submit" value="Predict">
+    </form>
+    {% if prediction_text %}
+        <h3>{{ prediction_text }}</h3>
+    {% endif %}
+</body>
+</html>
