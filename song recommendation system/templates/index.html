@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Song Recommendation System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+        }
+        .result h2 {
+            color: #333;
+        }
+        .song {
+            margin-bottom: 10px;
+        }
+        .song span {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Song Recommendation System</h1>
+        <form id="recommendation-form">
+            <label for="song_name">Enter a Song Name:</label>
+            <input type="text" id="song_name" name="song_name" required>
+            <label for="top_n">Number of Recommendations:</label>
+            <input type="text" id="top_n" name="top_n" value="10" required>
+            <input type="submit" value="Get Recommendations">
+        </form>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById('recommendation-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const song_name = document.getElementById('song_name').value;
+            const top_n = document.getElementById('top_n').value;
+
+            fetch(`/recommend?song_name=${encodeURIComponent(song_name)}&top_n=${encodeURIComponent(top_n)}`)
+                .then(response => response.json())
+                .then(data => {
+                    const resultDiv = document.getElementById('result');
+                    resultDiv.innerHTML = '';
+
+                    if (data.error) {
+                        resultDiv.innerHTML = `<p>${data.error}</p>`;
+                    } else {
+                        const recommendations = data.recommendations;
+                        if (recommendations.length === 0) {
+                            resultDiv.innerHTML = '<p>No recommendations found.</p>';
+                        } else {
+                            const html = recommendations.map(song => `
+                                <div class="song">
+                                    <span><strong>Song Name:</strong> ${song.name}</span>
+                                    <span><strong>Artist:</strong> ${song.artist}</span>
+                                    <span><strong>Genre:</strong> ${song.genre}</span>
+                                </div>
+                            `).join('');
+                            resultDiv.innerHTML = `<h2>Recommendations:</h2>${html}`;
+                        }
+                    }
+                });
+        });
+    </script>
+</body>
+</html>
